@@ -1,7 +1,7 @@
 {
     "name": "jpcandioti/php-ws-afip",
     "type": "library",
-    "description": "Librería para la gestión de WsbServices de la Agencia Federal de Ingresos Públicos (AFIP - Organismo de hacienda de Argentina).",
+    "description": "Librería para la gestión de WebServices de la Agencia Federal de Ingresos Públicos (AFIP - Organismo de hacienda de Argentina).",
     "keywords": [
         "afip",
         "webservice",
