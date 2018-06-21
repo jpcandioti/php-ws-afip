@@ -56,7 +56,7 @@ echo $private_key;
 
 ### Generación de una _Clave privada_ con _Frase secreta_
 
-Para conservar la seguridad de las claves generadas nunca deberían almacenarse junto a su frase secreta. Un ejemplo de uso podría ser no almacenar frases secretas, y que cada usuario la ingrese cada vez que se necesite firmar.
+Para conservar la seguridad de las claves generadas, nunca deberían almacenarse junto a su frase secreta. Un ejemplo de uso podría ser no almacenar frases secretas, y que cada usuario la ingrese cada vez que se necesite firmar.
 
 #### Ejemplo
 
@@ -71,6 +71,8 @@ echo $private_key;
 ~~~
 
 ### Generación de un _CSR_
+
+Para solicitar el certificado a AFIP es necesario generar un CSR.
 
 #### Ejemplo
 
@@ -139,18 +141,123 @@ if ($ta = $wsaa->requestTa()) {
 ~~~
 
 
-## WSN (WebService de Negocio)
+## WebService de Negocio (WSN)
 
-Por el momento el único WSN implementado es el WSFE (WebService de Facturación Electrónica).
+La librería cuenta con la clase __phpWsAfip/WS/WSN.php__ que sirve cómo base para todos los servicios que precisan gestionar un TA.
 
-Si precisa utilizar otro de los WebServices de AFIP, puede implementarlo utilizando cómo base la clase phpWsAfip/WS/WSFE.php. Luego puede compartirla agregándola al proyecto a través de un Pull Request, para que otros puedan aprovecharlo.
+Por el momento el único WSN implementado es el WebService de Facturación Electrónica (WSFE).
 
-## WSFE (WebService de Facturación Electrónica)
+Si precisa utilizar otro de los WebServices de AFIP, puede implementarlo Ud mismo utilizando cómo base la clase __phpWsAfip/WS/WSFE.php__. Luego puede compartirla agregándola al proyecto a través de un Pull Request, para que otros puedan aprovecharlo.
+
+
+## WebService de Facturación Electrónica (WSFE)
+
+Para operar en el servicio WSFEv1 se debe contar con un TA activo.
+
+Una vez instanciado pueden ejecutarse todos los métodos definidos en la documentación oficial ([WSFEv1: Manual para el desarrollador V.2.10]), pasando todos los parámetros dentro de un arreglo. El siguiente ejemplo ejecuta los métodos __FECompUltimoAutorizado__ y __FECAESolicitar__.
+
+#### Ejemplo
+
+~~~php
+use phpWsAfip\WS\WSFE;
+
+$ta_file = 'tmp/ta.xml';
+
+// Configuración del servicio WSFE.
+$config = [
+    'testing'           => true,                    // Utiliza el servicio de homologación.
+    'wsdl_cache_file'   => 'tmp/wsfehomo_wsdl.xml', // Define la ubicación del caché WSDL.
+];
+
+$wsfe = new WSFE($config);
+
+// Se precisa un TA.
+if (file_exists($ta_file)) {
+    $wsfe->setXmlTa(file_get_contents($ta_file));
+    
+    // Consulta el número del último comprobante y le sumo 1.
+    $pto_vta = array(
+        'PtoVta'    => 1,
+        'CbteTipo'  => 6    // 6 Factura B
+    );
+    $result = $wsfe->FECompUltimoAutorizado($pto_vta);
+    $cbte_nro = $result->FECompUltimoAutorizadoResult->CbteNro + 1;
+
+    $today = date('Ymd');
+
+    // Factura B por $302,50.
+    $invoice = array(
+        'FeCAEReq' => array(
+            'FeCabReq' => array(
+                'CantReg'      => 1,
+                'CbteTipo'     => 6,                    // 6 Factura B
+                'PtoVta'       => 1,
+            ),
+            'FeDetReq' => array(
+                'FECAEDetRequest' => array(
+                    'Concepto'     => 2,                // 2 Servicios.
+                    'DocTipo'      => 96,               // 96 DNI.
+                    'DocNro'       => 32472807,
+                    'CbteDesde'    => $cbte_nro,
+                    'CbteHasta'    => $cbte_nro,
+                    'CbteFch'      => $today,
+                    'ImpTotal'     => 302.5,
+                    'ImpTotConc'   => 0,
+                    'ImpNeto'      => 250,
+                    'ImpOpEx'      => 0,
+                    'ImpIVA'       => 52.5,
+                    'ImpTrib'      => 0,
+                    'FchServDesde' => $today,
+                    'FchServHasta' => $today,
+                    'FchVtoPago'   => $today,
+                    'MonId'        => 'PES',
+                    'MonCotiz'     => 1,
+                    'Iva'          => array(
+                        'AlicIva' => array(
+                            'Id'        => 5,
+                            'BaseImp'   => 250,
+                            'Importe'   => 52.5
+                        )
+                    )
+                )
+            )
+        )
+    );
+
+    // Se visualiza el resultado con el CAE correspondiente al comprobante.
+    $result = $wsfe->FECAESolicitar($invoice);
+    print_r($result);
+}
+~~~
+
+
+## Utilización de la caché de SoapClient
+
+phpWsAfip implementa un caché WSDL utilizando un archivo temporario. Si desea utilizar el caché de SoapClient puede hacerlo, tanto en WSAA cómo en cualquier WSN, cómo en el siguiente ejemplo.
+
+#### Ejemplo
+
+~~~php
+use phpWsAfip\WS\WSFE;
+
+// Configuración de SoapClient.
+$soap_options = array(
+    'cache_wsdl'=> WSDL_CACHE_DISK
+);
+
+// Configuración del servicio WSFE.
+$config = [
+    'wsdl_cache_file'   => null,
+    'soap_options'      => $soap_options
+];
+
+$wsfe = new WSFE($config);
+~~~
 
 
 ## Desarrollo y Testing
 
-Para correr el 
+Para armar el entorno de desarrollo deben seguirse los siguientes pasos:
 
 ~~~
 $ git clone git@github.com:jpcandioti/php-ws-afip.git
@@ -160,19 +267,21 @@ $ composer install
 
 Para correr los test es necesario tener un certificado de homologación con su respectiva _Clave privada_.
 
-Los mismos deben estar almacenados en:
+Los mismos deben estar almacenados en el directorio _credentials_ bajo el nombre indicado en la variable de entorno TEST_ALIAS, y las extensiones _.key_, _.csr_, _.pem_.
 
-    
+#### Ejemplo
 
 ~~~
 $ TEST_ALIAS=jgutierrez phpunit .
 ~~~
 
+
 ## Colaboración
 
-Puede aportar al proyecto en la siguiente billetera Bitcoin: [132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY]
+Puede aportar al desarrollador del proyecto en la siguiente billetera Bitcoin: [132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY]
 
 
 [Generación de Certificados para Producción]: https://afip.gob.ar/ws/WSAA/WSAA.ObtenerCertificado.pdf
 [WSASS: Cómo adherirse al servicio]: https://afip.gob.ar/ws/WSASS/WSASS_como_adherirse.pdf
+[WSFEv1: Manual para el desarrollador V.2.10]: http://www.afip.gob.ar/fe/documentos/manual_desarrollador_COMPG_v2_10.pdf
 [132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY]: bitcoin:132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY
