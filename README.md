@@ -12,16 +12,18 @@ phpWsAfip es una pequeña librería que permite que cualquier sistema en PHP pue
 - Extracción del _Distinguished Name_ (DN) de un CSR.
 - Extracción de información de certificado X.509.
 - Caché WSDL de cada WebService.
-- Ejecución de cualquier función ofrecida por el WebService a través de un método \__call.
-- Firmado de TRA.
-- Solicita un Ticket de Acceso (sesión).
-- Gestiona la sesión para cualquier WebService de AFIP.
+- Ejecución de cualquier función ofrecida por el WebService a través de un método _\__call_.
+- Firma de _Ticket de Requerimiento de Acceso_ (TRA).
+- Solicitud de _Ticket de Acceso_ (TA).
+- Gestión de sesión para cualquier _WebService de Negocio_ (WSN).
 - Implementa WSFEv1.
 
 
-La librería está compuesta por 3 clases principales:
+La librería está compuesta por 5 clases principales:
 - WSASS (Autoservicio de Acceso a WebServices).
+- WS (WebService base).
 - WSAA (WebService de Autenticación y Autorización).
+- WSN (WebService de Negocio).
 - WSFE (WebService de Facturación Electrónica).
 
 
