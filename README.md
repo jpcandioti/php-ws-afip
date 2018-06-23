@@ -1,6 +1,6 @@
 # phpWsAfip
 
-Librería para la gestión de WebServices de la Agencia Federal de Ingresos Públicos (AFIP - Organismo de hacienda de Argentina).
+Librería para la gestión de WebServices de la _Agencia Federal de Ingresos Públicos_ (AFIP - Organismo de hacienda de Argentina).
 
 phpWsAfip es una pequeña librería que permite que cualquier sistema en PHP pueda conectarse a los servicios de AFIP.
 
@@ -40,11 +40,11 @@ Para la creación de un certificado que nos permita operar en la plataforma de W
 
 Para conocer más puede acceder al siguiente documento de AFIP: [Generación de Certificados para Producción]
 
-Para crear un certificado para Testing/Homologación puede acceder al siguiente documento de AFIP: [WSASS: Cómo adherirse al servicio]
+Para crear un certificado de Testing/Homologación puede acceder al siguiente documento de AFIP: [WSASS: Cómo adherirse al servicio]
 
 ### Generación de una _Clave privada_
 
-La _Clave privada_ es importante conservarla en un lugar seguro.
+Es importante conservar la _Clave privada_ en un lugar seguro.
 
 #### Ejemplo
 
@@ -102,7 +102,9 @@ echo $csr;
 
 ## Manejo de sesiones
 
-Para poder operar en un WebService de Negocio (WSN) es necesario solicitar un Ticket de Acceso (TA).
+Para poder operar en un _WebService de Negocio_ (WSN) es necesario solicitar un _Ticket de Acceso_ (TA).
+
+Para conocer más puede acceder al siguiente documento de AFIP: [Especificación Técnica del WebService de Autenticación y Autorización]
 
 ### Solicitar un TA
 
@@ -116,14 +118,11 @@ $alias      = 'jgutierrez';
 $key_file   = 'file://credentials/' . $alias . '.key';
 $crt_file   = 'file://credentials/' . $alias . '.pem';
 
-// Archivo dónde se almacenará el Ticket de Acceso (TA).
-$ta_file    = 'tmp/ta.xml';
-
 // Configuración del servicio WSAA.
 $config = [
     'testing'           => true,                    // Utiliza el servicio de homologación.
     'wsdl_cache_file'   => 'tmp/wsaahomo_wsdl.xml', // Define la ubicación del caché WSDL.
-    'tra_tpl_file'      => 'tmp/tra_%s.xml'
+    'tra_tpl_file'      => 'tmp/tra_%s.xml'         // Define la ubicación de los archivos temporarios con el TRA.
 ];
 
 $wsaa = new WSAA('wsfe', $crt_file, $key_file, $config);
@@ -138,25 +137,25 @@ if ($ta = $wsaa->requestTa()) {
     //echo $xml;
 
     // Guardar el TA en un archivo.
-    $ta->asXml($ta_file);
+    $ta->asXml('tmp/ta.xml');
 }
 ~~~
 
 
 ## WebService de Negocio (WSN)
 
-La librería cuenta con la clase __phpWsAfip/WS/WSN.php__ que sirve cómo base para todos los servicios que precisan gestionar un TA.
+La librería cuenta con la clase _phpWsAfip/WS/WSN.php_ que sirve cómo base para todos los servicios que precisan gestionar un TA.
 
-Por el momento el único WSN implementado es el WebService de Facturación Electrónica (WSFE).
+Por el momento el único WSN implementado es el _WebService de Facturación Electrónica_ (WSFE).
 
-Si precisa utilizar otro de los WebServices de AFIP, puede implementarlo Ud mismo utilizando cómo base la clase __phpWsAfip/WS/WSFE.php__. Luego puede compartirla agregándola al proyecto a través de un Pull Request, para que otros puedan aprovecharlo.
+Si precisa utilizar otro de los WebServices de AFIP, puede implementarlo Ud mismo utilizando cómo base la clase _phpWsAfip/WS/WSFE.php_. Luego puede compartirla agregándola al proyecto a través de un Pull Request, para que otros puedan aprovecharlo.
 
 
 ## WebService de Facturación Electrónica (WSFE)
 
 Para operar en el servicio WSFEv1 se debe contar con un TA activo.
 
-Una vez instanciado pueden ejecutarse todos los métodos definidos en la documentación oficial ([WSFEv1: Manual para el desarrollador V.2.10]), pasando todos los parámetros dentro de un arreglo. El siguiente ejemplo ejecuta los métodos __FECompUltimoAutorizado__ y __FECAESolicitar__.
+Una vez instanciado pueden ejecutarse todos los métodos definidos en la documentación oficial ([WSFEv1: Manual para el desarrollador V.2.10]), pasando todos los parámetros dentro de un arreglo. El siguiente ejemplo ejecuta los métodos _FECompUltimoAutorizado_ y _FECAESolicitar_.
 
 #### Ejemplo
 
@@ -235,7 +234,7 @@ if (file_exists($ta_file)) {
 
 ## Utilización de la caché de SoapClient
 
-phpWsAfip implementa un caché WSDL utilizando un archivo temporario. Si desea utilizar el caché de SoapClient puede hacerlo, tanto en WSAA cómo en cualquier WSN, cómo en el siguiente ejemplo.
+phpWsAfip implementa un caché WSDL propio sobre un archivo. Si desea utilizar el caché de _SoapClient_ puede hacerlo, tanto en WSAA como en cualquier WSN.
 
 #### Ejemplo
 
@@ -269,7 +268,7 @@ $ composer install
 
 Para correr los test es necesario tener un certificado de homologación con su respectiva _Clave privada_.
 
-Los mismos deben estar almacenados en el directorio _credentials_ bajo el nombre indicado en la variable de entorno TEST_ALIAS, y las extensiones _.key_, _.csr_, _.pem_.
+Los mismos deben estar almacenados en el directorio _credentials_ bajo el nombre indicado en la variable de entorno _TEST_ALIAS_, y las extensiones _.key_, _.csr_, _.pem_.
 
 #### Ejemplo
 
@@ -280,10 +279,16 @@ $ TEST_ALIAS=jgutierrez phpunit .
 
 ## Colaboración
 
-Puede aportar al desarrollador del proyecto en la siguiente billetera Bitcoin: [132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY]
+Puede aportar al desarrollador del proyecto en la siguiente billetera Bitcoin:
+
+![bitcoin address]
+
+132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY
 
 
 [Generación de Certificados para Producción]: https://afip.gob.ar/ws/WSAA/WSAA.ObtenerCertificado.pdf
 [WSASS: Cómo adherirse al servicio]: https://afip.gob.ar/ws/WSASS/WSASS_como_adherirse.pdf
+[Especificación Técnica del WebService de Autenticación y Autorización]: https://afip.gob.ar/ws/WSAA/Especificacion_Tecnica_WSAA_1.2.2.pdf
 [WSFEv1: Manual para el desarrollador V.2.10]: http://www.afip.gob.ar/fe/documentos/manual_desarrollador_COMPG_v2_10.pdf
-[132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY]: bitcoin:132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY
+
+[bitcoin address]: https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=bitcoin%3A132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY "bitcoin:132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY"

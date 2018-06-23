@@ -16,7 +16,7 @@ $ta_file    = 'tmp/ta.xml';
 $config = [
     'testing'           => true,                    // Utiliza el servicio de homologación.
     'wsdl_cache_file'   => 'tmp/wsaahomo_wsdl.xml', // Define la ubicación del caché WSDL.
-    'tra_tpl_file'      => 'tmp/tra_%s.xml'
+    'tra_tpl_file'      => 'tmp/tra_%s.xml'         // Define la ubicación de los archivos temporarios con el TRA.
 ];
 
 $wsaa = new WSAA('wsfe', $crt_file, $key_file, $config);
