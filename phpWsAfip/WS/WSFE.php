@@ -3,7 +3,7 @@
 namespace phpWsAfip\WS;
 
 /**
- * WSFE (WebService de Facturación Electrónica)
+ * WSFE (WebService de Facturación Electrónica).
  *
  * Permite interactuar con el WSFEv1.
  * Precisa un TA activo.
@@ -21,6 +21,18 @@ class WSFE extends WSN
     private $testing;
 
 
+    /**
+     * __construct
+     *
+     * Constructor de WSFE.
+     *
+     * Valores aceptados en $config:
+     * - Todos los valores aceptados de phpWsAfip\WS\WS.
+     * - testing            ¿Es servidor de homologación?.
+     *
+     *
+     * @param   array   $config     Configuración de WSFE.
+     */
     public function __construct(array $config = array())
     {
         $this->testing                  = isset($config['testing'])     ? $config['testing']    : true;

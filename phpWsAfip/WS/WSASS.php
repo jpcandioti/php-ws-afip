@@ -3,7 +3,7 @@
 namespace phpWsAfip\WS;
 
 /**
- * WSASS (Autoservicio de Acceso a WebServices)
+ * WSASS (Autoservicio de Acceso a WebServices).
  *
  * Genera claves privadas y certificados CSR para poder registrarse ante los WebServices AFIP.
  *
@@ -17,11 +17,12 @@ abstract class WSASS
      *
      * Genera una Clave privada.
      *
-     * @parm    string  $bits       Largo de la Clave privada. AFIP exige que sea igual o mayor a 2048.
-     * @parm    string  $passphrase Frase secreta.
+     *
+     * @param   string  $bits       Largo de la Clave privada. AFIP exige que sea igual o mayor a 2048.
+     * @param   string  $passphrase Frase secreta.
      * @return  string              Clave privada.
      */
-    public static function generatePrivateKey($bits = 2048, $passphrase = null)
+    public static function generatePrivateKey(int $bits = 2048, string $passphrase = null)
     {
         if (!class_exists('\phpseclib\Crypt\RSA')) {
             throw new Exception('Es necesario instalar phpseclib: composer require phpseclib/phpseclib:~2.0');
@@ -47,12 +48,12 @@ abstract class WSASS
      *
      * Genera un Certificate Signing Request.
      *
-     * @parm    mixed   $privkey    Texto de la clave privada, o ruta de un archivo con la clave privada, o un arreglo de
-     *                              clave privada (texto o ruta de archivo) y frase secreta.
-     * @parm    array   $dn         Distinguished Name (DN).
-     * @return  string              Certificate Signing Request.
+     *
+     * @param   mixed       $privkey    Texto de la clave privada, o ruta de un archivo con la clave privada, o un arreglo de clave privada (texto o ruta de archivo) y frase secreta.
+     * @param   string[]    $dn         Distinguished Name (DN).
+     * @return  string                  Certificate Signing Request.
      */
-    public static function generateCsr($privkey, $dn)
+    public static function generateCsr($privkey, array $dn)
     {
         $csr = openssl_csr_new($dn, $privkey);
         openssl_csr_export($csr, $str_csr);
@@ -65,10 +66,10 @@ abstract class WSASS
      *
      * Extrae el Distinguished Name (DN) de un Certificate Signing Request.
      *
-     * @parm    string  $csr    CSR o ubicación del archivo .csr.
+     * @param   string  $csr    CSR o ubicación del archivo .csr.
      * @return  array           Certificate Signing Request.
      */
-    public static function extractCsr($csr)
+    public static function extractCsr(string $csr)
     {
         return openssl_csr_get_subject($csr, false);
     }
@@ -78,10 +79,10 @@ abstract class WSASS
      *
      * Extrae la información de un certificado X.509.
      *
-     * @parm    string  $pem    Ubicación del archivo .PEM.
+     * @param   string  $pem    Ubicación del archivo .PEM.
      * @return  array           Certificado X.509.
      */
-    public static function extractPem($pem)
+    public static function extractPem(string $pem)
     {
         return openssl_x509_parse($pem, false);
     }

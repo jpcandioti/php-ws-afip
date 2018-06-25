@@ -7,7 +7,7 @@ use phpWsAfip\WS\WSAA;
 use phpWsAfip\WS\WSFE;
 
 /**
- * WsfeTest
+ * WsfeTest.
  *
  * Testing de la clase WSFE.
  *

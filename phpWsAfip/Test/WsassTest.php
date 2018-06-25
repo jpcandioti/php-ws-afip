@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use phpWsAfip\WS\WSASS;
 
 /**
- * WsassTest
+ * WsassTest.
  *
  * Testing de la clase WSASS.
  *

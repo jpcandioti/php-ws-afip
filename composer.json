@@ -28,5 +28,8 @@
         "psr-4": {
              "phpWsAfip\\": "phpWsAfip"
         }
+    },
+    "require-dev": {
+        "victorjonsson/markdowndocs": "^1.3"
     }
 }

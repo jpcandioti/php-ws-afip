@@ -6,7 +6,7 @@ use PHPUnit\Framework\TestCase;
 use phpWsAfip\WS\WSAA;
 
 /**
- * WsaaTest
+ * WsaaTest.
  *
  * Testing de la clase WSAA.
  *

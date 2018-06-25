@@ -3,7 +3,7 @@
 namespace phpWsAfip\Exception;
 
 /**
- * WsaaException
+ * WsaaException.
  *
  *
  * @author Juan Pablo Candioti (@JPCandioti)

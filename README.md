@@ -2,7 +2,7 @@
 
 Librería para la gestión de WebServices de la _Agencia Federal de Ingresos Públicos_ (AFIP - Organismo de hacienda de Argentina).
 
-phpWsAfip es una pequeña librería que permite que cualquier sistema en PHP pueda conectarse a los servicios de AFIP.
+__phpWsAfip__ es una pequeña librería que permite que cualquier sistema en PHP pueda conectarse a los servicios de AFIP.
 
 
 ## Características
@@ -17,14 +17,6 @@ phpWsAfip es una pequeña librería que permite que cualquier sistema en PHP pue
 - Solicitud de _Ticket de Acceso_ (TA).
 - Gestión de sesión para cualquier _WebService de Negocio_ (WSN).
 - Implementa WSFEv1.
-
-
-La librería está compuesta por 5 clases principales:
-- WSASS (Autoservicio de Acceso a WebServices).
-- WS (WebService base).
-- WSAA (WebService de Autenticación y Autorización).
-- WSN (WebService de Negocio).
-- WSFE (WebService de Facturación Electrónica).
 
 
 ## Instalación
@@ -234,7 +226,7 @@ if (file_exists($ta_file)) {
 
 ## Utilización de la caché de SoapClient
 
-phpWsAfip implementa un caché WSDL propio sobre un archivo. Si desea utilizar el caché de _SoapClient_ puede hacerlo, tanto en WSAA como en cualquier WSN.
+__phpWsAfip__ implementa un caché WSDL propio sobre un archivo. Si desea utilizar el caché de _SoapClient_ puede hacerlo, tanto en WSAA como en cualquier WSN.
 
 #### Ejemplo
 
@@ -256,6 +248,11 @@ $wsfe = new WSFE($config);
 ~~~
 
 
+## Documentación del código
+
+Documentación de __[phpWsAfip]__ generada con _[PHP-Markdown-Documentation-Generator]_.
+
+
 ## Desarrollo y Testing
 
 Para armar el entorno de desarrollo deben seguirse los siguientes pasos:
@@ -263,7 +260,7 @@ Para armar el entorno de desarrollo deben seguirse los siguientes pasos:
 ~~~
 $ git clone git@github.com:jpcandioti/php-ws-afip.git
 $ cd php-ws-afip
-$ composer install 
+$ composer install
 ~~~
 
 Para correr los test es necesario tener un certificado de homologación con su respectiva _Clave privada_.
@@ -273,15 +270,34 @@ Los mismos deben estar almacenados en el directorio _credentials_ bajo el nombre
 #### Ejemplo
 
 ~~~
-$ TEST_ALIAS=jgutierrez phpunit .
+$ TEST_ALIAS=jgutierrez phpunit phpWsAfip
 ~~~
+
+
+## Licencia
+
+__phpWsAfip__ está licenciado bajo [Apache License Version 2.0]
+
+    Copyright 2018 Juan Pablo Candioti
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+        http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
 
 
 ## Colaboración
 
 Puede aportar al desarrollador del proyecto en la siguiente billetera Bitcoin:
 
-![bitcoin address]
+![qrcode-bitcoin-address]
 
 132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY
 
@@ -290,5 +306,7 @@ Puede aportar al desarrollador del proyecto en la siguiente billetera Bitcoin:
 [WSASS: Cómo adherirse al servicio]: https://afip.gob.ar/ws/WSASS/WSASS_como_adherirse.pdf
 [Especificación Técnica del WebService de Autenticación y Autorización]: https://afip.gob.ar/ws/WSAA/Especificacion_Tecnica_WSAA_1.2.2.pdf
 [WSFEv1: Manual para el desarrollador V.2.10]: http://www.afip.gob.ar/fe/documentos/manual_desarrollador_COMPG_v2_10.pdf
-
-[bitcoin address]: https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=bitcoin%3A132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY "bitcoin:132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY"
+[phpWsAfip]: doc/README.md
+[PHP-Markdown-Documentation-Generator]: https://github.com/victorjonsson/PHP-Markdown-Documentation-Generator
+[Apache License Version 2.0]: http://www.apache.org/licenses/LICENSE-2.0
+[qrcode-bitcoin-address]: https://zxing.org/w/chart?cht=qr&chs=350x350&chld=L&choe=UTF-8&chl=bitcoin%3A132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY "bitcoin:132r6sUhqz44gfXAj5EpWxH2pWB59HbWKY"

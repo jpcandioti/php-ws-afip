@@ -3,14 +3,14 @@
 namespace phpWsAfip\WS;
 
 /**
- * WS
+ * WS (WebService).
  *
  * Clase base para WebServices SOAP.
  *
  *
  * @author Juan Pablo Candioti (@JPCandioti)
  */
-class WS
+abstract class WS
 {
     /**
      * $ws_url
@@ -48,6 +48,19 @@ class WS
     protected $soap_client;
 
 
+    /**
+     * __construct
+     *
+     * Constructor WS.
+     * 
+     * Valores aceptados en $config:
+     * - ws_url             URL del WebService.
+     * - wsdl_cache_file    Ubicación dónde se almacena el caché del WSDL del WebService.
+     * - soap_options       Campo options del SoapClient del WebService.
+     *
+     *
+     * @param   array   $config     Configuración.
+     */
     public function __construct(array $config = array())
     {
         $this->ws_url           = isset($config['ws_url'])          ? $config['ws_url']                 : '';
@@ -113,10 +126,10 @@ class WS
      * Método mágico que ejecuta las funciones definidas en el WebService.
      *
      * @param   string      $name       Nombre de la función del WebService.
-     * @param   array       $arguments  Arreglo con los parámetros de la función WebService.
+     * @param   mixed[]     $arguments  Arreglo con los parámetros de la función WebService.
      * @return  \stdClass               Objeto con la estructura de la respuesta del WebService.
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         if (is_null($this->soap_client)) {
             $wsdl = $this->wsdl_url;

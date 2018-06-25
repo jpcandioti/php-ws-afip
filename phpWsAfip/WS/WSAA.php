@@ -5,7 +5,7 @@ namespace phpWsAfip\WS;
 use phpWsAfip\Exception\WsaaException;
 
 /**
- * WSAA (WebService de Autenticación y Autorización)
+ * WSAA (WebService de Autenticación y Autorización).
  *
  * Genera TRA (Ticket de Requerimiento de Acceso) e interactua con el WSAA. Si la solicitud
  * fue aceptada devuelve el TA (Ticket de Acceso).
@@ -25,7 +25,7 @@ class WSAA extends WS
     /**
      * $testing
      *
-     * @var boolean     ¿Utiliza servicio de homologación?.
+     * @var boolean     ¿Es servidor de homologación?.
      */
     private $testing;
 
@@ -95,7 +95,27 @@ class WSAA extends WS
     private $ta;
 
 
-    public function __construct($wsn_name, $str_crt, $privkey, array $config = array())
+    /**
+     * __construct
+     *
+     * Constructor de WSAA.
+     *
+     * Valores aceptados en $config:
+     * - Todos los valores aceptados de phpWsAfip\WS\WS.
+     * - testing            ¿Es servidor de homologación?.
+     * - tra_tpl_file       Plantilla dónde se expresa la ubicación de los archivos temporarios.
+     * - tra_file_unlink    Indica si el archivo con el TRA en formato XML debe ser eliminado luego de ser firmado.
+     * - cms_file_unlink    Indica si el archivo con la firma del TRA en formato Cryptographic Message Syntax (CMS) debe ser eliminado luego de solicitar el TA.
+     * - sec_tolerance      Segundos de tolerancia en el tiempo de generación de los TRA.
+     * - ta_expiration      Segundos de duración de los TA solicitados en los TRA.
+     *
+     *
+     * @param   string  $wsn_name   Nombre del WSN (WebService de Negocio) al que se desea acceder.
+     * @param   string  $str_crt    Texto del certificado X.509 firmado por la AFIP.
+     * @param   mixed   $privkey    Texto de la clave privada, o ruta de un archivo con la clave privada, o un arreglo de clave privada (texto o ruta de archivo) y frase secreta.
+     * @param   array   $config     Configuración extra y de la clase WS.
+     */
+    public function __construct(string $wsn_name, string $str_crt, $privkey, array $config = array())
     {
         $this->wsn_name             = $wsn_name;
         $this->str_crt              = $str_crt;

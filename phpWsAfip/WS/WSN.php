@@ -5,7 +5,7 @@ namespace phpWsAfip\WS;
 use phpWsAfip\Exception\WsnException;
 
 /**
- * WSN (WebService de Negocio)
+ * WSN (WebService de Negocio).
  *
  * Gestiona el TA (Ticket de Acceso) para cualquier WSN (WebService de Negocio) de AFIP.
  *
@@ -50,6 +50,14 @@ abstract class WSN extends WS
     private $ta_sign;
 
 
+    /**
+     * __construct
+     *
+     * Constructor de WSN.
+     *
+     *
+     * @param   array   $config     Configuración de WS.
+     */
     public function __construct(array $config = array())
     {
         $this->ta                   = null;
@@ -70,7 +78,7 @@ abstract class WSN extends WS
      * @param       \SimpleXMLElement   $ta     TA activo.
      * @return      WSSession
      */
-    public function setTa($ta)
+    public function setTa(\SimpleXMLElement $ta)
     {
         if (!isset($ta->header->expirationTime) || !isset($ta->credentials->token) || !isset($ta->credentials->sign)) {
             throw new WsnException('El TA es inválido.');
@@ -130,7 +138,7 @@ abstract class WSN extends WS
      * @param       integer     $ta_expiration_time     Unix Timestamp de expiración del TA activo.
      * @return      WSSession
      */
-    public function setTaExpirationTime($ta_expiration_time) {
+    public function setTaExpirationTime(int $ta_expiration_time) {
         $this->ta_expiration_time = $ta_expiration_time;
         
         return $this;
@@ -158,7 +166,7 @@ abstract class WSN extends WS
      * @param       float       $ta_cuit    CUIT del TA activo.
      * @return      WSSession
      */
-    public function setTaCuit($ta_cuit) {
+    public function setTaCuit(float $ta_cuit) {
         $this->ta_cuit = (float)$ta_cuit;
         
         return $this;
@@ -186,7 +194,7 @@ abstract class WSN extends WS
      * @param       string      $ta_token       Token del TA activo.
      * @return      WSSession
      */
-    public function setTaToken($ta_token) {
+    public function setTaToken(string $ta_token) {
         $this->ta_token = $ta_token;
         
         return $this;
@@ -214,7 +222,7 @@ abstract class WSN extends WS
      * @param       string      $ta_sign    Firma del TA activo.
      * @return      WSSession
      */
-    public function setTaSign($ta_sign) {
+    public function setTaSign(string $ta_sign) {
         $this->ta_sign = $ta_sign;
         
         return $this;
@@ -242,7 +250,7 @@ abstract class WSN extends WS
      * @param       string      $xml    XML del TA activo.
      * @return      WSSession
      */
-    public function setXmlTa($xml)
+    public function setXmlTa(string $xml)
     {
         $ta = new \SimpleXMLElement($xml);
         $this->setTa($ta);
@@ -259,7 +267,7 @@ abstract class WSN extends WS
      * @param   array       $arguments  Arreglo con los parámetros de la función WebService.
      * @return  \stdClass   Objeto con la estructura de la respuesta del WebService.
      */
-    function __call($name, $arguments)
+    function __call(string $name, array $arguments)
     {
         if ($this->ta_expiration_time < time()) {
             throw new WsnException('El TA está vencido');
