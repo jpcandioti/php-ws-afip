@@ -258,7 +258,7 @@ Documentación de __[phpWsAfip]__ generada con _[PHP-Markdown-Documentation-Gene
 Para armar el entorno de desarrollo deben seguirse los siguientes pasos:
 
 ~~~
-$ git clone git@github.com:jpcandioti/php-ws-afip.git
+$ git clone https://github.com/jpcandioti/php-ws-afip.git
 $ cd php-ws-afip
 $ composer install
 ~~~
