@@ -21,16 +21,18 @@
             "name": "Juan Pablo Candioti"
         }
     ],
-    "version": "1.0.0",
     "require": {
+        "php": ">=5.6",
+        "ext-soap": "*"
         "phpseclib/phpseclib": "~2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=5.0.0",
+        "victorjonsson/markdowndocs": "^1.3"
     },
     "autoload": {
         "psr-4": {
              "phpWsAfip\\": "phpWsAfip"
         }
-    },
-    "require-dev": {
-        "victorjonsson/markdowndocs": "^1.3"
     }
 }

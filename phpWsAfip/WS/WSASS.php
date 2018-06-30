@@ -22,7 +22,7 @@ abstract class WSASS
      * @param   string  $passphrase Frase secreta.
      * @return  string              Clave privada.
      */
-    public static function generatePrivateKey(int $bits = 2048, string $passphrase = null)
+    public static function generatePrivateKey($bits = 2048, $passphrase = null)
     {
         if (!class_exists('\phpseclib\Crypt\RSA')) {
             throw new Exception('Es necesario instalar phpseclib: composer require phpseclib/phpseclib:~2.0');
@@ -69,7 +69,7 @@ abstract class WSASS
      * @param   string  $csr    CSR o ubicación del archivo .csr.
      * @return  array           Certificate Signing Request.
      */
-    public static function extractCsr(string $csr)
+    public static function extractCsr($csr)
     {
         return openssl_csr_get_subject($csr, false);
     }
@@ -82,7 +82,7 @@ abstract class WSASS
      * @param   string  $pem    Ubicación del archivo .PEM.
      * @return  array           Certificado X.509.
      */
-    public static function extractPem(string $pem)
+    public static function extractPem($pem)
     {
         return openssl_x509_parse($pem, false);
     }

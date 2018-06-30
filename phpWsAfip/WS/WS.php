@@ -129,7 +129,7 @@ abstract class WS
      * @param   mixed[]     $arguments  Arreglo con los parámetros de la función WebService.
      * @return  \stdClass               Objeto con la estructura de la respuesta del WebService.
      */
-    public function __call(string $name, array $arguments)
+    public function __call($name, array $arguments)
     {
         if (is_null($this->soap_client)) {
             $wsdl = $this->wsdl_url;

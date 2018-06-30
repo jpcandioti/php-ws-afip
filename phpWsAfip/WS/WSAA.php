@@ -115,7 +115,7 @@ class WSAA extends WS
      * @param   mixed   $privkey    Texto de la clave privada, o ruta de un archivo con la clave privada, o un arreglo de clave privada (texto o ruta de archivo) y frase secreta.
      * @param   array   $config     Configuración extra y de la clase WS.
      */
-    public function __construct(string $wsn_name, string $str_crt, $privkey, array $config = array())
+    public function __construct($wsn_name, $str_crt, $privkey, array $config = array())
     {
         $this->wsn_name             = $wsn_name;
         $this->str_crt              = $str_crt;
