@@ -22,7 +22,7 @@ __phpWsAfip__ es una pequeña librería que permite que cualquier sistema en PHP
 ## Instalación
 
 ~~~
-$ composer require jpcandioti/php-ws-afip:dev-master
+$ composer require jpcandioti/php-ws-afip
 ~~~
 
 
@@ -140,7 +140,7 @@ La librería cuenta con la clase _phpWsAfip/WS/WSN.php_ que sirve cómo base par
 
 Por el momento el único WSN implementado es el _WebService de Facturación Electrónica_ (WSFE).
 
-Si precisa utilizar otro de los WebServices de AFIP, puede implementarlo Ud mismo utilizando cómo base la clase _phpWsAfip/WS/WSFE.php_. Luego puede compartirla agregándola al proyecto a través de un Pull Request, para que otros puedan aprovecharlo.
+Si precisa utilizar otro de los WebServices de AFIP, puede implementarlo Ud mismo utilizando cómo ejemplo la clase _phpWsAfip/WS/WSFE.php_. Luego puede compartirla agregándola al proyecto a través de un Pull Request, para que otros puedan aprovecharlo.
 
 
 ## WebService de Facturación Electrónica (WSFE)

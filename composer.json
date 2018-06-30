@@ -21,6 +21,7 @@
             "name": "Juan Pablo Candioti"
         }
     ],
+    "version": "1.0.0",
     "require": {
         "phpseclib/phpseclib": "~2.0"
     },
